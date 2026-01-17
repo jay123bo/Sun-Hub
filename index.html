@@ -23,32 +23,6 @@
             overflow-x: hidden;
         }
         
-        /* Background Image */
-        body::before {
-            content: '';
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://tr.rbxcdn.com/180DAY-c0c1c4d4ecac6766c2c7f25f3e5dde66/768/432/Image/Webp/noFilter');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 0.2;
-            z-index: -1;
-        }
-        
-        /* Overlay gradient */
-        body::after {
-            content: '';
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
-            z-index: -1;
-        }
-        
         /* Header */
         .header {
             background: rgba(15, 15, 20, 0.95);
@@ -469,7 +443,7 @@
             </div>
             
             <div class="scripts-grid" id="scriptsGrid">
-                <div class="script-card" onclick="showDetail('brainrot')">
+                <div class="script-card" data-script="brainrot">
                     <div class="script-icon">🧠</div>
                     <div class="script-title">Steal a Brainrot Script v1</div>
                     <div class="script-desc">The ultimate brainrot experience for maximum chaos!</div>
@@ -480,7 +454,7 @@
                     </div>
                 </div>
                 
-                <div class="script-card" onclick="showDetail('teleport')">
+                <div class="script-card" data-script="teleport">
                     <div class="script-icon">⚡</div>
                     <div class="script-title">Simple Teleport Script</div>
                     <div class="script-desc">Set spawn points and teleport instantly anywhere!</div>
@@ -527,107 +501,18 @@
     </div>
 
     <script>
-        // ============================================
-        // ADVANCED SECURITY & DDOS PROTECTION
-        // ============================================
-        
-        // Rate Limiting
-        const rateLimiter = {
-            requests: {},
-            limit: 50, // Max requests per minute
-            window: 60000, // 1 minute
-            
-            check: function(action = 'default') {
-                const now = Date.now();
-                const key = action;
-                
-                if (!this.requests[key]) {
-                    this.requests[key] = [];
-                }
-                
-                // Remove old requests outside time window
-                this.requests[key] = this.requests[key].filter(time => now - time < this.window);
-                
-                // Check if limit exceeded
-                if (this.requests[key].length >= this.limit) {
-                    console.warn('Rate limit exceeded');
-                    return false;
-                }
-                
-                // Add current request
-                this.requests[key].push(now);
-                return true;
-            },
-            
-            reset: function(action = 'default') {
-                this.requests[action] = [];
-            }
-        };
-        
-        // Anti-bot protection
-        let mouseMovements = 0;
-        let lastMouseMove = 0;
-        
-        document.addEventListener('mousemove', () => {
-            const now = Date.now();
-            if (now - lastMouseMove > 100) {
-                mouseMovements++;
-                lastMouseMove = now;
-            }
-        });
-        
-        function isLikelyBot() {
-            return mouseMovements < 5 && Date.now() - performance.timing.navigationStart > 5000;
-        }
-        
-        // Request fingerprinting
-        const fingerprint = {
-            screen: `${screen.width}x${screen.height}`,
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            language: navigator.language,
-            platform: navigator.platform,
-            userAgent: navigator.userAgent,
-            timestamp: Date.now()
-        };
-        
-        // Connection monitoring
-        let requestCount = 0;
-        const maxRequestsPerSecond = 10;
-        
-        setInterval(() => {
-            if (requestCount > maxRequestsPerSecond) {
-                console.warn('Abnormal request pattern detected');
-            }
-            requestCount = 0;
-        }, 1000);
-        
-        // Protected function wrapper
-        function secureAction(callback, actionName = 'default') {
-            return function(...args) {
-                // Check rate limit
-                if (!rateLimiter.check(actionName)) {
-                    alert('⚠️ Too many requests. Please slow down.');
-                    return;
-                }
-                
-                // Increment request counter
-                requestCount++;
-                
-                // Execute callback
-                return callback.apply(this, args);
-            };
-        }
-        
-        // ============================================
-        // MAIN APPLICATION CODE
-        // ============================================
-        
         const scriptsData = {
             brainrot: {
                 icon: '🧠',
                 title: 'Steal a Brainrot Script v1',
                 subtitle: 'Maximum brainrot chaos unleashed',
-                script: 'hi'
+                script: 'hi',
+                features: [
+                    '• Premium brainrot content',
+                    '• Optimized performance',
+                    '• Regular updates',
+                    '• Easy to use'
+                ]
             },
             teleport: {
                 icon: '⚡',
@@ -798,10 +683,16 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
     Duration = 3;
 })
 
-print("Deus Ex Sophia: Sun Hub radiates within the memory. Shine bright, user.")`
+print("Deus Ex Sophia: Sun Hub radiates within the memory. Shine bright, user.")`,
+                features: [
+                    '• Set custom spawn points',
+                    '• Instant teleportation',
+                    '• Beautiful Sun Hub UI',
+                    '• Draggable interface'
+                ]
             }
         };
-        
+
         const mainView = document.getElementById('mainView');
         const detailView = document.getElementById('detailView');
         const backBtn = document.getElementById('backBtn');
@@ -825,17 +716,7 @@ print("Deus Ex Sophia: Sun Hub radiates within the memory. Shine bright, user.")
                     <p>${scriptType === 'brainrot' ? 'The ultimate brainrot script that brings maximum chaos and entertainment!' : 'A powerful teleport GUI with set points and instant warping capabilities.'}</p>
                     
                     <h3>Features</h3>
-                    ${scriptType === 'brainrot' ? `
-                        <p>• Premium brainrot content</p>
-                        <p>• Optimized performance</p>
-                        <p>• Regular updates</p>
-                        <p>• Easy to use</p>
-                    ` : `
-                        <p>• Set custom spawn points</p>
-                        <p>• Instant teleportation</p>
-                        <p>• Beautiful Sun Hub UI</p>
-                        <p>• Draggable interface</p>
-                    `}
+                    ${currentScript.features.map(f => `<p>${f}</p>`).join('')}
                     
                     <h3>Get Started</h3>
                     <p>Click the button below to copy the script, then paste it into your executor!</p>
@@ -853,52 +734,32 @@ print("Deus Ex Sophia: Sun Hub radiates within the memory. Shine bright, user.")
             document.getElementById('copyBtn').addEventListener('click', () => {
                 const scriptText = currentScript.script;
                 
-                // Try modern clipboard API first
-                if (navigator.clipboard && window.isSecureContext) {
-                    navigator.clipboard.writeText(scriptText).then(() => {
-                        const copyBtn = document.getElementById('copyBtn');
-                        const copyStatus = document.getElementById('copyStatus');
-                        copyStatus.style.display = 'block';
-                        copyBtn.textContent = '✓ COPIED!';
-                        setTimeout(() => {
-                            copyBtn.textContent = '📋 COPY SCRIPT';
-                            copyStatus.style.display = 'none';
-                        }, 2000);
-                    }).catch(() => {
-                        fallbackCopy(scriptText);
-                    });
-                } else {
-                    fallbackCopy(scriptText);
+                // Fallback copy method
+                const textArea = document.createElement('textarea');
+                textArea.value = scriptText;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                textArea.style.top = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    const copyBtn = document.getElementById('copyBtn');
+                    const copyStatus = document.getElementById('copyStatus');
+                    copyStatus.style.display = 'block';
+                    copyBtn.textContent = '✓ COPIED!';
+                    setTimeout(() => {
+                        copyBtn.textContent = '📋 COPY SCRIPT';
+                        copyStatus.style.display = 'none';
+                    }, 2000);
+                } catch (err) {
+                    alert('Failed to copy. Please copy manually.');
                 }
+                
+                document.body.removeChild(textArea);
             });
-        }
-        
-        // Fallback copy method for non-secure contexts
-        function fallbackCopy(text) {
-            const textArea = document.createElement('textarea');
-            textArea.value = text;
-            textArea.style.position = 'fixed';
-            textArea.style.left = '-999999px';
-            textArea.style.top = '-999999px';
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
-                const copyBtn = document.getElementById('copyBtn');
-                const copyStatus = document.getElementById('copyStatus');
-                copyStatus.style.display = 'block';
-                copyBtn.textContent = '✓ COPIED!';
-                setTimeout(() => {
-                    copyBtn.textContent = '📋 COPY SCRIPT';
-                    copyStatus.style.display = 'none';
-                }, 2000);
-            } catch (err) {
-                alert('Failed to copy. Please copy manually.');
-            }
-            
-            document.body.removeChild(textArea);
         }
         
         function showMain() {
@@ -908,6 +769,14 @@ print("Deus Ex Sophia: Sun Hub radiates within the memory. Shine bright, user.")
         }
         
         backBtn.addEventListener('click', showMain);
+        
+        // Script card click handlers
+        scriptCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const scriptType = card.getAttribute('data-script');
+                showDetail(scriptType);
+            });
+        });
         
         // Search functionality
         searchInput.addEventListener('input', (e) => {
@@ -922,30 +791,32 @@ print("Deus Ex Sophia: Sun Hub radiates within the memory. Shine bright, user.")
         });
         
         // Navigation
-        document.getElementById('homeLink').addEventListener('click', showMain);
+        document.getElementById('homeLink').addEventListener('click', () => {
+            showMain();
+        });
         
-        document.getElementById('executorLink').addEventListener('click', secureAction(() => {
+        document.getElementById('executorLink').addEventListener('click', () => {
             document.getElementById('executorModal').classList.add('active');
-        }, 'executor'));
+        });
         
         document.getElementById('aboutLink').addEventListener('click', () => {
             alert('Sun Hub - Your source for Roblox scripts\n\n⚠️ Use responsibly!');
         });
         
-        // Executor Modal Functions (Protected)
+        // Executor Modal Functions
         function closeExecutorModal() {
             document.getElementById('executorModal').classList.remove('active');
         }
         
-        const goToPC = secureAction(() => {
+        function goToPC() {
             window.open('https://xeno.onl', '_blank');
             closeExecutorModal();
-        }, 'navigate');
+        }
         
-        const goToMobile = secureAction(() => {
+        function goToMobile() {
             window.open('https://deltaexploits.gg/', '_blank');
             closeExecutorModal();
-        }, 'navigate');
+        }
         
         // Close modal on escape
         document.addEventListener('keydown', (e) => {
@@ -965,27 +836,4 @@ print("Deus Ex Sophia: Sun Hub radiates within the memory. Shine bright, user.")
         const categoryBtns = document.querySelectorAll('.category-btn');
         categoryBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                categoryBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            });
-        });
-        
-        // ============================================
-        // SECURITY MONITORING
-        // ============================================
-        
-        // Detect DevTools opening
-        let devtoolsOpen = false;
-        const detectDevTools = () => {
-            const threshold = 160;
-            if (window.outerWidth - window.innerWidth > threshold || 
-                window.outerHeight - window.innerHeight > threshold) {
-                devtoolsOpen = true;
-            } else {
-                devtoolsOpen = false;
-            }
-        };
-        setInterval(detectDevTools, 1000);
-    </script>
-</body>
-</html>
+                categoryBt
