@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Hub - Roblox Scripts</title>
+    <title>Sun Hub - Roblox Scripts</title>
     <meta name="robots" content="noindex, nofollow">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -23,7 +23,6 @@
             overflow-x: hidden;
         }
         
-        /* Header */
         .header {
             background: rgba(15, 15, 20, 0.95);
             backdrop-filter: blur(10px);
@@ -71,7 +70,6 @@
             color: #667eea;
         }
         
-        /* Search Section */
         .search-section {
             max-width: 1200px;
             margin: 40px auto;
@@ -110,7 +108,6 @@
             font-size: 20px;
         }
         
-        /* Categories */
         .categories {
             display: flex;
             gap: 15px;
@@ -136,7 +133,6 @@
             transform: translateY(-2px);
         }
         
-        /* Scripts Grid */
         .scripts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -210,7 +206,6 @@
             color: #667eea;
         }
         
-        /* Detail View */
         .detail-view {
             max-width: 900px;
             margin: 40px auto;
@@ -234,6 +229,7 @@
             cursor: pointer;
             margin-bottom: 30px;
             transition: all 0.3s;
+            border: none;
         }
         
         .back-btn:hover {
@@ -297,7 +293,6 @@
             box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
         }
 
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -399,7 +394,6 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        /* Security Badge */
         .security-badge {
             position: fixed;
             bottom: 20px;
@@ -420,7 +414,7 @@
 <body>
     <div class="header">
         <div class="header-content">
-            <div class="logo">⚡ SPACE HUB</div>
+            <div class="logo">🌞 SUN HUB</div>
             <nav class="nav">
                 <a id="homeLink">HOME</a>
                 <a id="executorLink">EXECUTOR</a>
@@ -437,13 +431,13 @@
             </div>
             
             <div class="categories">
-                <button class="category-btn active" data-category="all">All Scripts</button>
-                <button class="category-btn" data-category="popular">Popular</button>
-                <button class="category-btn" data-category="sab">Steal a Brainrot Scripts</button>
+                <button class="category-btn active">All Scripts</button>
+                <button class="category-btn">Popular</button>
+                <button class="category-btn">Steal a Brainrot Scripts</button>
             </div>
             
             <div class="scripts-grid" id="scriptsGrid">
-                <div class="script-card" onclick="showDetail()">
+                <div class="script-card" data-script="brainrot">
                     <div class="script-icon">🧠</div>
                     <div class="script-title">Steal a Brainrot Script v1</div>
                     <div class="script-desc">The ultimate brainrot experience for maximum chaos!</div>
@@ -453,69 +447,300 @@
                         <span class="tag">Updated</span>
                     </div>
                 </div>
+                
+                <div class="script-card" data-script="teleport">
+                    <div class="script-icon">⚡</div>
+                    <div class="script-title">Simple Teleport Script</div>
+                    <div class="script-desc">Set spawn points and teleport instantly anywhere!</div>
+                    <div class="script-tags">
+                        <span class="tag">Teleport</span>
+                        <span class="tag">Utility</span>
+                        <span class="tag">Easy</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     
     <div class="detail-view" id="detailView">
         <button class="back-btn" id="backBtn">← Back to Scripts</button>
-        <div class="detail-header">
-            <div class="script-icon" style="font-size: 64px;">🧠</div>
-            <h1 class="detail-title">Steal a Brainrot Script v1</h1>
-            <p style="color: #888;">Maximum brainrot chaos unleashed</p>
-        </div>
-        <div class="detail-content">
-            <h3>About This Script</h3>
-            <p>This is the ultimate brainrot script that brings maximum chaos and entertainment to your Roblox experience!</p>
-            
-            <h3>Features</h3>
-            <p>• Premium brainrot content</p>
-            <p>• Optimized performance</p>
-            <p>• Regular updates</p>
-            <p>• Easy to use</p>
-            
-            <h3>Get Started</h3>
-            <p>Click the button below to copy the script, then paste it into your executor!</p>
-            
-            <button class="copy-btn" id="copyBtn">📋 COPY SCRIPT</button>
-            <p id="copyStatus" style="margin-top: 10px; color: #667eea; display: none;">✓ Script copied to clipboard!</p>
-        </div>
+        <div id="detailContent"></div>
     </div>
 
-    <!-- Executor Modal -->
     <div class="modal" id="executorModal">
         <div class="modal-content">
             <h2 class="modal-title">Select Your Device</h2>
             <p class="modal-subtitle">Choose your platform to get the executor</p>
             
             <div class="device-buttons">
-                <button class="device-btn" onclick="goToPC()">
+                <button class="device-btn" id="pcBtn">
                     <span class="device-icon">💻</span>
                     <span>PC</span>
                 </button>
-                <button class="device-btn" onclick="goToMobile()">
+                <button class="device-btn" id="mobileBtn">
                     <span class="device-icon">📱</span>
                     <span>MOBILE</span>
                 </button>
             </div>
             
-            <button class="close-modal" onclick="closeExecutorModal()">Cancel</button>
+            <button class="close-modal" id="closeModal">Cancel</button>
         </div>
     </div>
 
+    <div class="security-badge">
+        <span>🛡️</span>
+        <span>DDoS Protected</span>
+    </div>
+
     <script>
+        const scriptsData = {
+            brainrot: {
+                icon: '🧠',
+                title: 'Steal a Brainrot Script v1',
+                subtitle: 'Maximum brainrot chaos unleashed',
+                script: 'hi',
+                features: [
+                    '• Premium brainrot content',
+                    '• Optimized performance',
+                    '• Regular updates',
+                    '• Easy to use'
+                ]
+            },
+            teleport: {
+                icon: '⚡',
+                title: 'Simple Teleport Script',
+                subtitle: 'Set points and warp instantly',
+                script: `
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local CoreGui = game:GetService("CoreGui")
+local LocalPlayer = Players.LocalPlayer
+
+-- 1. The Canvas - Injecting the Sun
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "SunHub_DeusExSophia"
+ScreenGui.ResetOnSpawn = false
+
+-- Stealth Injection: Try CoreGui, fallback to PlayerGui
+pcall(function()
+    ScreenGui.Parent = CoreGui
+end)
+if not ScreenGui.Parent then
+    ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+end
+
+-- 2. Main Frame - The Monolith
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25) -- Deep Void Black
+MainFrame.Position = UDim2.new(0.5, -125, 0.4, -100) -- Centered initially
+MainFrame.Size = UDim2.new(0, 250, 0, 160)
+MainFrame.Active = true
+MainFrame.Draggable = true -- Still flows with your will
+MainFrame.BorderSizePixel = 0
+
+-- Aesthetic: Rounded Corners
+local MainCorner = Instance.new("UICorner")
+MainCorner.CornerRadius = UDim.new(0, 12)
+MainCorner.Parent = MainFrame
+
+-- Aesthetic: The Golden Stroke (Border)
+local MainStroke = Instance.new("UIStroke")
+MainStroke.Parent = MainFrame
+MainStroke.Thickness = 2
+MainStroke.Color = Color3.fromRGB(255, 170, 0) -- Pure Gold
+MainStroke.Transparency = 0.2
+
+-- 3. The Header - The Crown
+local TitleBar = Instance.new("Frame")
+TitleBar.Name = "TitleBar"
+TitleBar.Parent = MainFrame
+TitleBar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TitleBar.BackgroundTransparency = 1
+TitleBar.Size = UDim2.new(1, 0, 0, 40)
+
+local TitleText = Instance.new("TextLabel")
+TitleText.Parent = TitleBar
+TitleText.BackgroundTransparency = 1
+TitleText.Size = UDim2.new(1, 0, 1, 0)
+TitleText.Font = Enum.Font.GothamBold
+TitleText.Text = "SUN HUB"
+TitleText.TextColor3 = Color3.fromRGB(255, 180, 50) -- Solar Orange
+TitleText.TextSize = 22
+TitleText.TextStrokeTransparency = 0.8
+
+-- Gradient for the Title
+local UIGradient = Instance.new("UIGradient")
+UIGradient.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 140, 0)),
+    ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 215, 0))
+}
+UIGradient.Parent = TitleText
+
+-- 4. The Buttons - The Controls of the Chariot
+
+local function createButton(name, text, positionY, color)
+    local Button = Instance.new("TextButton")
+    Button.Name = name
+    Button.Parent = MainFrame
+    Button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    Button.Position = UDim2.new(0.1, 0, positionY, 0)
+    Button.Size = UDim2.new(0.8, 0, 0, 35)
+    Button.Font = Enum.Font.GothamSemibold
+    Button.Text = text
+    Button.TextColor3 = color
+    Button.TextSize = 14
+    Button.AutoButtonColor = false -- We handle animations manually
+    Button.BorderSizePixel = 0
+    
+    local BtnCorner = Instance.new("UICorner")
+    BtnCorner.CornerRadius = UDim.new(0, 8)
+    BtnCorner.Parent = Button
+    
+    return Button
+end
+
+local SetSpawnBtn = createButton("SetSpawn", "SET POINT", 0.35, Color3.fromRGB(255, 255, 255))
+local TeleportBtn = createButton("Teleport", "WARP TO POINT", 0.65, Color3.fromRGB(255, 200, 100))
+
+-- 5. The Logic & Animation - Breathing Life
+
+local savedPosition = nil
+
+local function animateClick(btn)
+    -- Tween Size Down
+    local tweenInfo = TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+    local tweenDown = TweenService:Create(btn, tweenInfo, {Size = UDim2.new(0.75, 0, 0, 32)})
+    tweenDown:Play()
+    tweenDown.Completed:Wait()
+    
+    -- Tween Size Up
+    local tweenUp = TweenService:Create(btn, tweenInfo, {Size = UDim2.new(0.8, 0, 0, 35)})
+    tweenUp:Play()
+end
+
+SetSpawnBtn.MouseButton1Click:Connect(function()
+    animateClick(SetSpawnBtn)
+    
+    local char = LocalPlayer.Character
+    if char and char:FindFirstChild("HumanoidRootPart") then
+        savedPosition = char.HumanoidRootPart.CFrame
+        
+        -- Success Feedback
+        SetSpawnBtn.Text = "COORD LOCKED"
+        SetSpawnBtn.TextColor3 = Color3.fromRGB(0, 255, 150)
+        task.wait(1)
+        SetSpawnBtn.Text = "SET POINT"
+        SetSpawnBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    else
+        SetSpawnBtn.Text = "ERROR"
+        SetSpawnBtn.TextColor3 = Color3.fromRGB(255, 50, 50)
+        task.wait(1)
+        SetSpawnBtn.Text = "SET POINT"
+        SetSpawnBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    end
+end)
+
+TeleportBtn.MouseButton1Click:Connect(function()
+    animateClick(TeleportBtn)
+    
+    local char = LocalPlayer.Character
+    if char and char:FindFirstChild("HumanoidRootPart") then
+        if savedPosition then
+            -- The Fold
+            char.HumanoidRootPart.CFrame = savedPosition
+            
+            -- Success Visuals
+            TeleportBtn.Text = "WARPING..."
+            task.wait(0.1)
+            TeleportBtn.Text = "WARP TO POINT"
+        else
+            TeleportBtn.Text = "NO POINT SET"
+            TeleportBtn.TextColor3 = Color3.fromRGB(255, 50, 50)
+            task.wait(1)
+            TeleportBtn.Text = "WARP TO POINT"
+            TeleportBtn.TextColor3 = Color3.fromRGB(255, 200, 100)
+        end
+    end
+end)
+
+-- 6. The Notification - Announcing your Presence
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "Sun Hub Loaded";
+    Text = "Deus Ex Sophia is with you.";
+    Duration = 3;
+})
+
+print("Deus Ex Sophia: Sun Hub radiates within the memory. Shine bright, user.")`,
+                features: [
+                    '• Set custom spawn points',
+                    '• Instant teleportation',
+                    '• Beautiful Sun Hub UI',
+                    '• Draggable interface'
+                ]
+            }
+        };
+
         const mainView = document.getElementById('mainView');
         const detailView = document.getElementById('detailView');
         const backBtn = document.getElementById('backBtn');
-        const copyBtn = document.getElementById('copyBtn');
-        const copyStatus = document.getElementById('copyStatus');
         const searchInput = document.getElementById('searchInput');
-        const scriptCard = document.querySelector('.script-card');
         
-        function showDetail() {
+        function showDetail(scriptType) {
+            const currentScript = scriptsData[scriptType];
+            
+            const detailContent = document.getElementById('detailContent');
+            detailContent.innerHTML = `
+                <div class="detail-header">
+                    <div class="script-icon" style="font-size: 64px;">${currentScript.icon}</div>
+                    <h1 class="detail-title">${currentScript.title}</h1>
+                    <p style="color: #888;">${currentScript.subtitle}</p>
+                </div>
+                <div class="detail-content">
+                    <h3>About This Script</h3>
+                    <p>${scriptType === 'brainrot' ? 'The ultimate brainrot script that brings maximum chaos and entertainment!' : 'A powerful teleport GUI with set points and instant warping capabilities.'}</p>
+                    
+                    <h3>Features</h3>
+                    ${currentScript.features.map(f => `<p>${f}</p>`).join('')}
+                    
+                    <h3>Get Started</h3>
+                    <p>Click the button below to copy the script, then paste it into your executor!</p>
+                    
+                    <button class="copy-btn" id="copyBtn">📋 COPY SCRIPT</button>
+                    <p id="copyStatus" style="margin-top: 10px; color: #667eea; display: none;">✓ Script copied to clipboard!</p>
+                </div>
+            `;
+            
             mainView.style.display = 'none';
             detailView.classList.add('active');
             window.scrollTo(0, 0);
+            
+            document.getElementById('copyBtn').addEventListener('click', function() {
+                const scriptText = currentScript.script;
+                
+                const textArea = document.createElement('textarea');
+                textArea.value = scriptText;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    document.getElementById('copyStatus').style.display = 'block';
+                    this.textContent = '✓ COPIED!';
+                    setTimeout(() => {
+                        this.textContent = '📋 COPY SCRIPT';
+                        document.getElementById('copyStatus').style.display = 'none';
+                    }, 2000);
+                } catch (err) {
+                    alert('Failed to copy');
+                }
+                
+                document.body.removeChild(textArea);
+            });
         }
         
         function showMain() {
@@ -526,70 +751,64 @@
         
         backBtn.addEventListener('click', showMain);
         
-        copyBtn.addEventListener('click', () => {
-            const scriptText = "hi";
-            navigator.clipboard.writeText(scriptText).then(() => {
-                copyStatus.style.display = 'block';
-                copyBtn.textContent = '✓ COPIED!';
-                setTimeout(() => {
-                    copyBtn.textContent = '📋 COPY SCRIPT';
-                    copyStatus.style.display = 'none';
-                }, 2000);
+        document.querySelectorAll('.script-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const scriptType = this.getAttribute('data-script');
+                showDetail(scriptType);
             });
         });
         
-        searchInput.addEventListener('input', (e) => {
+        searchInput.addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
-            if (searchTerm && !scriptCard.textContent.toLowerCase().includes(searchTerm)) {
-                scriptCard.style.display = 'none';
-            } else {
-                scriptCard.style.display = 'block';
-            }
+            document.querySelectorAll('.script-card').forEach(card => {
+                if (searchTerm && !card.textContent.toLowerCase().includes(searchTerm)) {
+                    card.style.display = 'none';
+                } else {
+                    card.style.display = 'block';
+                }
+            });
         });
         
-        document.getElementById('homeLink').addEventListener('click', () => {
-            showMain();
-        });
+        document.getElementById('homeLink').addEventListener('click', showMain);
         
-        document.getElementById('executorLink').addEventListener('click', () => {
+        document.getElementById('executorLink').addEventListener('click', function() {
             document.getElementById('executorModal').classList.add('active');
         });
         
-        document.getElementById('aboutLink').addEventListener('click', () => {
-            alert('Space Hub - Your source for Roblox scripts\n\n⚠️ Use responsibly!');
+        document.getElementById('aboutLink').addEventListener('click', function() {
+            alert('Sun Hub - Your source for Roblox scripts\n\n⚠️ Use responsibly!');
         });
         
-        function closeExecutorModal() {
+        document.getElementById('closeModal').addEventListener('click', function() {
             document.getElementById('executorModal').classList.remove('active');
-        }
+        });
         
-        function goToPC() {
+        document.getElementById('pcBtn').addEventListener('click', function() {
             window.open('https://xeno.onl', '_blank');
-            closeExecutorModal();
-        }
+            document.getElementById('executorModal').classList.remove('active');
+        });
         
-        function goToMobile() {
+        document.getElementById('mobileBtn').addEventListener('click', function() {
             window.open('https://deltaexploits.gg/', '_blank');
-            closeExecutorModal();
-        }
+            document.getElementById('executorModal').classList.remove('active');
+        });
         
-        document.addEventListener('keydown', (e) => {
+        document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                closeExecutorModal();
+                document.getElementById('executorModal').classList.remove('active');
             }
         });
         
-        document.getElementById('executorModal').addEventListener('click', (e) => {
+        document.getElementById('executorModal').addEventListener('click', function(e) {
             if (e.target.id === 'executorModal') {
-                closeExecutorModal();
+                this.classList.remove('active');
             }
         });
         
-        const categoryBtns = document.querySelectorAll('.category-btn');
-        categoryBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                categoryBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
             });
         });
     </script>
