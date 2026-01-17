@@ -418,6 +418,7 @@
             <nav class="nav">
                 <a id="homeLink">HOME</a>
                 <a id="executorLink">EXECUTOR</a>
+                <a id="discordLink">DISCORD SERVER</a>
                 <a id="aboutLink">ABOUT</a>
             </nav>
         </div>
@@ -775,8 +776,12 @@ print("Deus Ex Sophia: Sun Hub radiates within the memory. Shine bright, user.")
             document.getElementById('executorModal').classList.add('active');
         });
         
+        document.getElementById('discordLink').addEventListener('click', function() {
+            window.open('https://discord.gg/9wTbgvYv3J', '_blank');
+        });
+        
         document.getElementById('aboutLink').addEventListener('click', function() {
-            alert('Sun Hub - Your source for Roblox scripts\n\n⚠️ Use responsibly!');
+            alert('⚠️ USE AT YOUR OWN RISK');
         });
         
         document.getElementById('closeModal').addEventListener('click', function() {
