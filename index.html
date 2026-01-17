@@ -432,13 +432,14 @@
             </div>
             
             <div class="categories">
-                <button class="category-btn active">All Scripts</button>
-                <button class="category-btn">Popular</button>
-                <button class="category-btn">Steal a Brainrot Scripts</button>
+                <button class="category-btn active" data-category="all">All Scripts</button>
+                <button class="category-btn" data-category="popular">Popular</button>
+                <button class="category-btn" data-category="brainrot">Steal a Brainrot Scripts</button>
+                <button class="category-btn" data-category="universal">Universal Scripts</button>
             </div>
             
             <div class="scripts-grid" id="scriptsGrid">
-                <div class="script-card" data-script="brainrot">
+                <div class="script-card" data-script="brainrot" data-category="brainrot">
                     <div class="script-icon">🧠</div>
                     <div class="script-title">Steal a Brainrot Script v1</div>
                     <div class="script-desc">The ultimate brainrot experience for maximum chaos!</div>
@@ -449,7 +450,7 @@
                     </div>
                 </div>
                 
-                <div class="script-card" data-script="teleport">
+                <div class="script-card" data-script="teleport" data-category="universal">
                     <div class="script-icon">⚡</div>
                     <div class="script-title">Simple Teleport Script</div>
                     <div class="script-desc">Set spawn points and teleport instantly anywhere!</div>
@@ -670,7 +671,7 @@ end)
 -- 6. The Notification - Announcing your Presence
 game:GetService("StarterGui"):SetCore("SendNotification", {
     Title = "Sun Hub Loaded";
-    Text = "Thank you for choosing SunHub.";
+    Text = "Thanks for choosing SunHub.";
     Duration = 3;
 })
 
@@ -814,6 +815,21 @@ print("Deus Ex Sophia: Sun Hub radiates within the memory. Shine bright, user.")
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
+                
+                const category = this.getAttribute('data-category');
+                const scriptCards = document.querySelectorAll('.script-card');
+                
+                scriptCards.forEach(card => {
+                    const cardCategory = card.getAttribute('data-category');
+                    
+                    if (category === 'all') {
+                        card.style.display = 'block';
+                    } else if (category === cardCategory) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
             });
         });
     </script>
