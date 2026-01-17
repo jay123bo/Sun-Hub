@@ -181,6 +181,28 @@
             overflow: hidden;
         }
         
+        .script-card:first-child {
+            background-image: url('https://tr.rbxcdn.com/180DAY-c0c1c4d4ecac6766c2c7f25f3e5dde66/768/432/Image/Webp/noFilter');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .script-card:first-child::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 10, 15, 0.85);
+            z-index: 0;
+        }
+        
+        .script-card:first-child > * {
+            position: relative;
+            z-index: 1;
+        }
+        
         .script-card::before {
             content: '';
             position: absolute;
@@ -627,7 +649,92 @@
                 icon: '🧠',
                 title: 'Steal a Brainrot Script v1',
                 subtitle: 'Maximum brainrot chaos unleashed',
-                script: 'hi'
+                script: `-- Steal a Brainrot Script v1
+-- Full working script for maximum chaos!
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+-- Main GUI Setup
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local ActivateBtn = Instance.new("TextButton")
+
+ScreenGui.Parent = player:WaitForChild("PlayerGui")
+ScreenGui.ResetOnSpawn = false
+
+-- Main Frame
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+MainFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
+MainFrame.Size = UDim2.new(0, 300, 0, 200)
+MainFrame.Active = true
+MainFrame.Draggable = true
+
+local Corner = Instance.new("UICorner")
+Corner.CornerRadius = UDim.new(0, 10)
+Corner.Parent = MainFrame
+
+-- Title
+Title.Parent = MainFrame
+Title.BackgroundTransparency = 1
+Title.Size = UDim2.new(1, 0, 0, 50)
+Title.Font = Enum.Font.GothamBold
+Title.Text = "BRAINROT MODE"
+Title.TextColor3 = Color3.fromRGB(255, 100, 255)
+Title.TextSize = 24
+
+-- Activate Button
+ActivateBtn.Parent = MainFrame
+ActivateBtn.BackgroundColor3 = Color3.fromRGB(150, 50, 200)
+ActivateBtn.Position = UDim2.new(0.1, 0, 0.5, 0)
+ActivateBtn.Size = UDim2.new(0.8, 0, 0, 50)
+ActivateBtn.Font = Enum.Font.GothamBold
+ActivateBtn.Text = "ACTIVATE CHAOS"
+ActivateBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+ActivateBtn.TextSize = 18
+
+local BtnCorner = Instance.new("UICorner")
+BtnCorner.CornerRadius = UDim.new(0, 8)
+BtnCorner.Parent = ActivateBtn
+
+-- Script Logic
+local active = false
+
+ActivateBtn.MouseButton1Click:Connect(function()
+    active = not active
+    
+    if active then
+        ActivateBtn.Text = "DEACTIVATE"
+        ActivateBtn.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+        
+        -- Main chaos loop
+        spawn(function()
+            while active do
+                local char = player.Character
+                if char and char:FindFirstChild("HumanoidRootPart") then
+                    -- Random effects
+                    char.HumanoidRootPart.Velocity = Vector3.new(
+                        math.random(-50, 50),
+                        math.random(0, 30),
+                        math.random(-50, 50)
+                    )
+                end
+                wait(0.5)
+            end
+        end)
+    else
+        ActivateBtn.Text = "ACTIVATE CHAOS"
+        ActivateBtn.BackgroundColor3 = Color3.fromRGB(150, 50, 200)
+    end
+end)
+
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "Brainrot Loaded!";
+    Text = "Click ACTIVATE for chaos!";
+    Duration = 3;
+})`
             },
             teleport: {
                 icon: '⚡',
