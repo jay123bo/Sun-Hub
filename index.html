@@ -179,12 +179,15 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+        }
+        
+        .script-card:first-child {
             background-image: url('https://tr.rbxcdn.com/180DAY-c0c1c4d4ecac6766c2c7f25f3e5dde66/768/432/Image/Webp/noFilter');
             background-size: cover;
             background-position: center;
         }
         
-        .script-card::after {
+        .script-card:first-child::after {
             content: '';
             position: absolute;
             top: 0;
@@ -195,7 +198,7 @@
             z-index: 0;
         }
         
-        .script-card > * {
+        .script-card:first-child > * {
             position: relative;
             z-index: 1;
         }
