@@ -181,13 +181,13 @@
             overflow: hidden;
         }
         
-        .script-card:first-child {
+        .script-card.brainrot-card {
             background-image: url('https://tr.rbxcdn.com/180DAY-c0c1c4d4ecac6766c2c7f25f3e5dde66/768/432/Image/Webp/noFilter');
             background-size: cover;
             background-position: center;
         }
         
-        .script-card:first-child::after {
+        .script-card.brainrot-card::after {
             content: '';
             position: absolute;
             top: 0;
@@ -198,7 +198,7 @@
             z-index: 0;
         }
         
-        .script-card:first-child > * {
+        .script-card.brainrot-card > * {
             position: relative;
             z-index: 1;
         }
@@ -491,7 +491,7 @@
             </div>
             
             <div class="scripts-grid" id="scriptsGrid">
-                <div class="script-card" onclick="showDetail('brainrot')">
+                <div class="script-card brainrot-card" onclick="showDetail('brainrot')">
                     <div class="script-icon">🧠</div>
                     <div class="script-title">Steal a Brainrot Script v1</div>
                     <div class="script-desc">The ultimate brainrot experience for maximum chaos!</div>
