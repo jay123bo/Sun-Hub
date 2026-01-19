@@ -4,11 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌞 Sun Hub - Roblox Scripts</title>
-    <meta name="robots" content="noindex, nofollow">
-    <meta http-equiv="X-Frame-Options" content="DENY">
-    <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <meta name="referrer" content="no-referrer">
     <style>
         * {
             margin: 0;
@@ -21,10 +16,9 @@
             background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
             color: #fff;
             overflow-x: hidden;
-            position: relative;
+            min-height: 100vh;
         }
         
-        /* Animated gradient background */
         body::before {
             content: '';
             position: fixed;
@@ -34,9 +28,8 @@
             left: -50%;
             z-index: -1;
             background: 
-                radial-gradient(circle at 20% 80%, rgba(255, 200, 100, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 150, 50, 0.06) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(255, 220, 120, 0.04) 0%, transparent 50%);
+                radial-gradient(circle at 20% 80%, rgba(255, 200, 100, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 150, 50, 0.08) 0%, transparent 50%);
             animation: gradientShift 15s ease infinite;
         }
         
@@ -45,31 +38,9 @@
             50% { transform: translate(-5%, -5%) rotate(5deg); }
         }
         
-        /* Floating particles */
-        .particle {
-            position: fixed;
-            width: 3px;
-            height: 3px;
-            background: rgba(255, 200, 100, 0.4);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        .particle:nth-child(1) { left: 10%; top: 20%; animation: float 8s infinite; }
-        .particle:nth-child(2) { left: 20%; top: 80%; animation: float 10s infinite 1s; }
-        .particle:nth-child(3) { left: 60%; top: 40%; animation: float 12s infinite 2s; }
-        .particle:nth-child(4) { left: 80%; top: 60%; animation: float 9s infinite 3s; }
-        .particle:nth-child(5) { left: 40%; top: 10%; animation: float 11s infinite 4s; }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
-            50% { transform: translateY(-30px) translateX(20px); opacity: 0.8; }
-        }
-        
         .header {
             background: rgba(15, 15, 20, 0.7);
-            backdrop-filter: blur(20px) saturate(180%);
+            backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 200, 100, 0.1);
             padding: 20px 0;
             position: sticky;
@@ -93,8 +64,6 @@
             background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 30px rgba(255, 200, 100, 0.3);
             animation: glow 3s ease-in-out infinite;
             letter-spacing: 2px;
         }
@@ -145,12 +114,6 @@
             max-width: 1200px;
             margin: 60px auto;
             padding: 0 20px;
-            animation: fadeIn 0.8s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         
         .search-container {
@@ -175,7 +138,7 @@
             outline: none;
             border-color: rgba(255, 200, 100, 0.5);
             background: rgba(30, 30, 40, 0.7);
-            box-shadow: 0 8px 32px rgba(255, 200, 100, 0.2);
+            box-shadow: 0 12px 40px rgba(255, 200, 100, 0.3);
             transform: translateY(-2px);
         }
         
@@ -245,26 +208,10 @@
             border: 1px solid rgba(255, 200, 100, 0.15);
             border-radius: 20px;
             padding: 30px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s ease;
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            animation: slideUp 0.6s ease forwards;
-            opacity: 0;
-        }
-        
-        .script-card:nth-child(1) { animation-delay: 0.1s; }
-        .script-card:nth-child(2) { animation-delay: 0.2s; }
-        
-        @keyframes slideUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
         }
         
         .script-card::before {
@@ -276,34 +223,16 @@
             height: 4px;
             background: linear-gradient(90deg, #FFD700, #FFA500, #FF8C00);
             transform: scaleX(0);
-            transform-origin: left;
             transition: transform 0.4s ease;
-        }
-        
-        .script-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            pointer-events: none;
         }
         
         .script-card:hover::before {
             transform: scaleX(1);
         }
         
-        .script-card:hover::after {
-            opacity: 1;
-        }
-        
         .script-card:hover {
             border-color: rgba(255, 200, 100, 0.4);
-            transform: translateY(-8px) scale(1.02);
+            transform: translateY(-8px);
             box-shadow: 0 20px 60px rgba(255, 200, 100, 0.3);
         }
         
@@ -311,13 +240,6 @@
             font-size: 48px;
             margin-bottom: 20px;
             display: inline-block;
-            animation: bounce 2s ease-in-out infinite;
-            filter: drop-shadow(0 5px 15px rgba(255, 200, 100, 0.3));
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
         }
         
         .script-title {
@@ -325,8 +247,6 @@
             font-weight: 700;
             margin-bottom: 12px;
             color: #fff;
-            position: relative;
-            z-index: 1;
         }
         
         .script-desc {
@@ -334,29 +254,22 @@
             font-size: 14px;
             line-height: 1.6;
             margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
         }
         
         .script-tags {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            position: relative;
-            z-index: 1;
         }
         
         .tag {
             padding: 6px 14px;
             background: rgba(255, 200, 100, 0.15);
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 200, 100, 0.3);
             border-radius: 20px;
             font-size: 11px;
             color: #FFD700;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
         
         .detail-view {
@@ -364,7 +277,6 @@
             margin: 60px auto;
             padding: 0 20px;
             display: none;
-            animation: fadeIn 0.6s ease;
         }
         
         .detail-view.active {
@@ -377,7 +289,6 @@
             gap: 10px;
             padding: 12px 24px;
             background: rgba(30, 30, 40, 0.6);
-            backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 200, 100, 0.2);
             border-radius: 50px;
             color: white;
@@ -385,24 +296,22 @@
             margin-bottom: 30px;
             transition: all 0.3s ease;
             font-weight: 600;
+            border: none;
         }
         
         .back-btn:hover {
             background: rgba(255, 200, 100, 0.1);
             border-color: rgba(255, 200, 100, 0.4);
             transform: translateX(-5px);
-            box-shadow: 0 5px 20px rgba(255, 200, 100, 0.2);
         }
         
         .detail-header {
             background: rgba(20, 20, 30, 0.6);
-            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 200, 100, 0.2);
             border-radius: 20px;
             padding: 50px;
             margin-bottom: 30px;
             text-align: center;
-            box-shadow: 0 10px 40px rgba(255, 200, 100, 0.2);
         }
         
         .detail-title {
@@ -412,16 +321,13 @@
             background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: glow 3s ease-in-out infinite;
         }
         
         .detail-content {
             background: rgba(20, 20, 30, 0.6);
-            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 200, 100, 0.2);
             border-radius: 20px;
             padding: 40px;
-            box-shadow: 0 10px 40px rgba(255, 200, 100, 0.2);
         }
         
         .detail-content h3 {
@@ -429,14 +335,12 @@
             margin-top: 30px;
             margin-bottom: 20px;
             font-size: 22px;
-            font-weight: 700;
         }
         
         .detail-content p {
             color: #ccc;
             line-height: 1.8;
             margin-bottom: 15px;
-            font-size: 15px;
         }
         
         .copy-btn {
@@ -452,17 +356,11 @@
             font-weight: 700;
             font-size: 16px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 10px 30px rgba(255, 200, 100, 0.4);
         }
         
         .copy-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 15px 40px rgba(255, 200, 100, 0.6);
-        }
-        
-        .copy-btn:active {
-            transform: translateY(-1px);
         }
 
         .modal {
@@ -481,31 +379,16 @@
         
         .modal.active {
             display: flex;
-            animation: fadeIn 0.3s ease;
         }
         
         .modal-content {
             background: rgba(20, 20, 30, 0.95);
-            backdrop-filter: blur(20px);
             border: 2px solid rgba(255, 200, 100, 0.3);
             border-radius: 25px;
             padding: 50px;
             max-width: 550px;
             width: 90%;
             text-align: center;
-            animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 20px 60px rgba(255, 200, 100, 0.3);
-        }
-        
-        @keyframes modalSlideIn {
-            from {
-                transform: translateY(-50px) scale(0.9);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
         }
         
         .modal-title {
@@ -520,7 +403,6 @@
         .modal-subtitle {
             color: #aaa;
             margin-bottom: 35px;
-            font-size: 15px;
         }
         
         .device-buttons {
@@ -533,7 +415,6 @@
             flex: 1;
             padding: 30px 20px;
             background: rgba(30, 30, 40, 0.6);
-            backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 200, 100, 0.2);
             border-radius: 20px;
             color: white;
@@ -551,12 +432,10 @@
             background: rgba(255, 200, 100, 0.1);
             border-color: #FFD700;
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255, 200, 100, 0.3);
         }
         
         .device-icon {
             font-size: 52px;
-            filter: drop-shadow(0 5px 15px rgba(255, 200, 100, 0.3));
         }
         
         .close-modal {
@@ -567,12 +446,10 @@
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-weight: 600;
         }
         
         .close-modal:hover {
             background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
         }
 
         .security-badge {
@@ -580,7 +457,6 @@
             bottom: 25px;
             right: 25px;
             background: rgba(0, 255, 100, 0.1);
-            backdrop-filter: blur(10px);
             border: 2px solid rgba(0, 255, 100, 0.3);
             padding: 12px 20px;
             border-radius: 50px;
@@ -591,18 +467,10 @@
             align-items: center;
             gap: 10px;
             font-weight: 700;
-            box-shadow: 0 5px 20px rgba(0, 255, 100, 0.2);
-            animation: pulse 2s ease-in-out infinite;
         }
     </style>
 </head>
 <body>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-
     <div class="header">
         <div class="header-content">
             <div class="logo">🌞 SUN HUB</div>
@@ -703,7 +571,7 @@
                 icon: '⚡',
                 title: 'Simple Teleport Script',
                 subtitle: 'Set points and warp instantly',
-                script: `loadstring(game:HttpGet("https://raw.githubusercontent.com/jay123bo/SimpleteleportScript/main/SimpleTeleportScript.lua"))()`,
+                script: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/jay123bo/SimpleteleportScript/main/SimpleTeleportScript.lua"))()',
                 features: [
                     '• Set custom spawn points',
                     '• Instant teleportation',
@@ -803,3 +671,63 @@
         
         document.getElementById('executorLink').addEventListener('click', function() {
             document.getElementById('executorModal').classList.add('active');
+        });
+        
+        document.getElementById('discordLink').addEventListener('click', function() {
+            window.open('https://discord.gg/9wTbgvYv3J', '_blank');
+        });
+        
+        document.getElementById('aboutLink').addEventListener('click', function() {
+            alert('Use At Your Own Risk');
+        });
+        
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('executorModal').classList.remove('active');
+        });
+        
+        document.getElementById('pcBtn').addEventListener('click', function() {
+            window.open('https://xeno.onl', '_blank');
+            document.getElementById('executorModal').classList.remove('active');
+        });
+        
+        document.getElementById('mobileBtn').addEventListener('click', function() {
+            window.open('https://deltaexploits.gg/', '_blank');
+            document.getElementById('executorModal').classList.remove('active');
+        });
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('executorModal').classList.remove('active');
+            }
+        });
+        
+        document.getElementById('executorModal').addEventListener('click', function(e) {
+            if (e.target.id === 'executorModal') {
+                this.classList.remove('active');
+            }
+        });
+        
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const category = this.getAttribute('data-category');
+                const scriptCards = document.querySelectorAll('.script-card');
+                
+                scriptCards.forEach(card => {
+                    const cardCategory = card.getAttribute('data-category');
+                    
+                    if (category === 'all' || category === 'popular') {
+                        card.style.display = 'block';
+                    } else if (category === cardCategory) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
