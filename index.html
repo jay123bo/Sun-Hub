@@ -478,6 +478,7 @@
                 <a id="homeLink">HOME</a>
                 <a id="executorLink">EXECUTOR</a>
                 <a id="discordLink">DISCORD SERVER</a>
+                <a id="obfuscatorLink">OBFUSCATOR</a>
                 <a id="aboutLink">ABOUT</a>
             </nav>
         </div>
@@ -677,8 +678,15 @@
             window.open('https://discord.gg/9wTbgvYv3J', '_blank');
         });
         
+        document.getElementById('obfuscatorLink').addEventListener('click', function() {
+            const answer = window.confirm('Do you want to use Sun Obfuscator v4 Beta?');
+            if (answer) {
+                window.open('https://sun-obfuscator.vercel.app/', '_blank');
+            }
+        });
+        
         document.getElementById('aboutLink').addEventListener('click', function() {
-            alert('Use At Your Own Risk');
+            alert('Nothing much just the best script hub in the world');
         });
         
         document.getElementById('closeModal').addEventListener('click', function() {
