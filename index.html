@@ -564,6 +564,8 @@
                     <span>NO</span>
                 </button>
             </div>
+            
+            <button class="close-modal" id="closeObfuscatorModal">Cancel</button>
         </div>
     </div>
 
@@ -697,10 +699,20 @@
         });
         
         document.getElementById('obfuscatorLink').addEventListener('click', function() {
-            const answer = window.confirm('Do you want to use Sun Obfuscator v4 Beta?');
-            if (answer) {
-                window.open('https://sun-obfuscator.vercel.app/', '_blank');
-            }
+            document.getElementById('obfuscatorModal').classList.add('active');
+        });
+        
+        document.getElementById('yesBtn').addEventListener('click', function() {
+            window.open('https://sun-obfuscator.vercel.app/', '_blank');
+            document.getElementById('obfuscatorModal').classList.remove('active');
+        });
+        
+        document.getElementById('noBtn').addEventListener('click', function() {
+            document.getElementById('obfuscatorModal').classList.remove('active');
+        });
+        
+        document.getElementById('closeObfuscatorModal').addEventListener('click', function() {
+            document.getElementById('obfuscatorModal').classList.remove('active');
         });
         
         document.getElementById('aboutLink').addEventListener('click', function() {
@@ -724,11 +736,18 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 document.getElementById('executorModal').classList.remove('active');
+                document.getElementById('obfuscatorModal').classList.remove('active');
             }
         });
         
         document.getElementById('executorModal').addEventListener('click', function(e) {
             if (e.target.id === 'executorModal') {
+                this.classList.remove('active');
+            }
+        });
+        
+        document.getElementById('obfuscatorModal').addEventListener('click', function(e) {
+            if (e.target.id === 'obfuscatorModal') {
                 this.classList.remove('active');
             }
         });
